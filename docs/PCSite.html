@@ -37,14 +37,22 @@ body, p, h1, h2, h3, h4, h5, h6, a, span, div, li, ul, ol, input, textarea, butt
   position:absolute;
   right:300px;
 }
- .cursor {
-            position: fixed; /* Ensures the canvas stays fixed and doesn't scroll with content */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Ensures the canvas doesn't block interactions */
-            z-index: 9999; /* Puts the canvas on the top layer */
+.fake-cursor {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 1;
+}
+
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 #content {
@@ -672,6 +680,9 @@ a:hover {
   
   
 <body>
+     <div id="cursor" class="fake-cursor"></div>
+      <canvas id="trailCanvas"></canvas>
+  
     <div class="cursor" style="user-select: text;">
         <canvas id="trailCanvas" width="441" height="709" style="user-select: text;"></canvas>
     </div>
@@ -902,7 +913,119 @@ a:hover {
         </div>
     </div>
    
-  <script src="https://raw.githubusercontent.com/Dezzrae5/Dezzrae.github.io/refs/heads/main/docs/GhostTrail.js"></script> 
+  <script >window.onload = function() {
+    ghostCursor();
+
+    function ghostCursor() {
+        let canvas = document.getElementById('trailCanvas');
+        let context = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let cursor = { x: width / 2, y: width / 2 };
+        let particles = [];
+        const fakeCursor = document.getElementById('cursor');
+        const offset = { x: 0, y: 0 }; // Adjusted the offset to match the new cursor size
+
+        canvas.width = width;
+        canvas.height = height;
+
+        let baseImage = new Image();
+        baseImage.src = "https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/image/Mouse.png?raw=true";
+
+        function init() {
+            bindEvents();
+            loop();
+        }
+
+        function bindEvents() {
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("touchmove", onTouchMove, { passive: true });
+            document.addEventListener("touchstart", onTouchMove, { passive: true });
+            window.addEventListener("resize", onWindowResize);
+
+            // Event delegation to handle button clicks
+            document.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    e.target.click();
+                }
+            });
+        }
+
+        function onWindowResize(e) {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        function onTouchMove(e) {
+            if (e.touches.length > 0) {
+                for (let i = 0; i < e.touches.length; i++) {
+                    updateFakeCursor(e.touches[i].clientX, e.touches[i].clientY);
+                }
+            }
+        }
+
+        function onMouseMove(e) {
+            cursor.x = e.clientX;
+            cursor.y = e.clientY;
+            updateFakeCursor(cursor.x, cursor.y);
+        }
+
+        function updateFakeCursor(x, y) {
+            fakeCursor.style.left = `${x + offset.x}px`;
+            fakeCursor.style.top = `${y + offset.y}px`;
+
+            // Check if the cursor is over an interactive element
+            const elementUnderCursor = document.elementFromPoint(x, y);
+            if (elementUnderCursor && elementUnderCursor.tagName === 'BUTTON') {
+                fakeCursor.style.pointerEvents = 'none'; // Allow interactions with underlying buttons
+            } else {
+                fakeCursor.style.pointerEvents = 'auto'; // Make the fake cursor interactive
+            }
+
+            addParticle(x + offset.x, y + offset.y, baseImage);
+        }
+
+        function addParticle(x, y, image) {
+            particles.push(new Particle(x, y, image));
+        }
+
+        function updateParticles() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(context);
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                if (particles[i].lifeSpan < 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function loop() {
+            updateParticles();
+            requestAnimationFrame(loop);
+        }
+
+        function Particle(x, y, image) {
+            this.initialLifeSpan = 40;
+            this.lifeSpan = this.initialLifeSpan;
+            this.position = { x: x, y: y };
+            this.image = image;
+
+            this.update = function (context) {
+                this.lifeSpan--;
+                const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0);
+                context.globalAlpha = opacity;
+                context.drawImage(this.image, this.position.x, this.position.y);
+            };
+        }
+
+        init();
+    }
+}
+</script> 
   
   
 </body></html>
