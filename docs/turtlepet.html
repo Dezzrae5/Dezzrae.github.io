@@ -1,0 +1,172 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gify Pet</title>
+    <style>
+      @font-face {
+    font-family: 'NintendoDSBIOS';
+    src: url('https://cdn.jsdelivr.net/gh/Dezzrae5/my-font-repo@main/Nintendo-DS-BIOS.ttf') format('truetype');}
+ 
+body, p, h1, h2, h3, h4, h5, h6, a, span, div, li, ul, ol, input, textarea, button, blockquote, pre, code, th, td, table {
+  font-weight: normal;
+    font-style: normal;
+    font-family: 'NintendoDSBIOS', sans-serif !important;
+        font-size: 20px;}
+      
+        .container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            border: 2px solid #ccc;
+            background-image: url('https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/Images/wodda.gif?raw=true');
+            background-size: cover;
+        }
+
+        .gify-pet {
+            position: absolute;
+            width: 100px;
+            cursor: pointer;
+        }
+
+        .chat-bubble {
+            display: none; /* Hide the chat bubble initially */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-size: 14px;
+            white-space: normal;
+            max-width: 150px;
+            min-width: 100px;
+            height: auto;
+            overflow: visible;
+        }
+
+        .flip-horizontal {
+            transform: scaleX(-1);
+        }
+        
+        /* Customize Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #770049;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #770049;
+}
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <img src="https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/Images/tuwtle.gif?raw=true" alt="Gify Pet" class="gify-pet flip-horizontal" id="gifyPet" style="left: 352px; top: 120px;">
+        <div class="chat-bubble" id="chatBubble">Hello!</div>
+    </div>
+
+    <script>
+        const gifyPet = document.getElementById('gifyPet');
+        const chatBubble = document.getElementById('chatBubble');
+        const container = document.getElementById('container');
+        let directionX = 1;
+        let directionY = 1;
+        let posX = 0;
+        let posY = 0;
+        const speed = 1;
+        let isStopped = false;
+        const idleGif = 'https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/Images/tuwtleidle.gif?raw=true';
+        const activeGif = 'https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/Images/tuwtle.gif?raw=true';
+        
+        const phrases = [
+            "Hello!", "How are you?", "Head pats!", "Yay, thank you!", "What's up?", "Keep smiling!", "I see you!",
+            "Hey there, human! 🐢", "Did you know turtles can live for over 100 years? 🐢", "What's the plan for today? 🐾",
+            "Feeling adventurous? Let's explore new waters! 🌊", "Have you ever seen a turtle dance? Well, now you have! 🐢💃",
+            "Just basking in the sun, how about you? 🌞", "Time for a snack? How about some fresh veggies? 🥬",
+            "Ready for a slow and steady race? 🏁", "Why rush when you can take it slow and steady? 🐢", "Tell me a secret, I won't tell anyone! 🤫",
+            "Just checking in to remind you that you're awesome! 🌟", "Ever wondered why turtles hide in their shells? 🐢",
+            "Let's make today turtley awesome! 😁", "Sometimes I think you're the pet, and I'm the wise old turtle! 🐢",
+            "Got any ocean stories to share? 🌊", "Exploring the world, one step at a time! 🐾", "What's the buzz in the pond? 🐸",
+            "Who's a good human? You are! 🎖️❤️", "Do you think fish get thirsty? 🐠", "Sending you slow and steady hugs! 🐢💖",
+            "Feeling a bit slow? Don't worry, I'm here for you! 🐢", "Life is better with a shell! 🐢"
+        ];
+
+        function getRandomPhrase() {
+            const randomIndex = Math.floor(Math.random() * phrases.length);
+            return phrases[randomIndex];
+        }
+
+        function move() {
+            if (!isStopped) {
+                const containerWidth = container.clientWidth;
+                const containerHeight = container.clientHeight;
+                const gifWidth = gifyPet.clientWidth;
+                const gifHeight = gifyPet.clientHeight;
+
+                posX += directionX * speed;
+                posY += directionY * speed;
+
+                if (posX + gifWidth >= containerWidth || posX <= 0) {
+                    directionX *= -1;
+                    gifyPet.classList.toggle('flip-horizontal', directionX < 0);
+                }
+                if (posY + gifHeight >= containerHeight || posY <= 0) {
+                    directionY *= -1;
+                }
+
+                gifyPet.style.left = posX + 'px';
+                gifyPet.style.top = posY + 'px';
+            }
+
+            requestAnimationFrame(move);
+        }
+
+        // Initialize the initial position and start the animation immediately
+        gifyPet.classList.toggle('flip-horizontal', directionX < 0); // Set initial flip state
+        gifyPet.style.left = posX + 'px';
+        gifyPet.style.top = posY + 'px';
+        requestAnimationFrame(move);
+
+        let bubbleTimeout;
+
+        gifyPet.addEventListener('mouseenter', function() {
+            isStopped = true;
+            gifyPet.classList.add('stopped');
+            gifyPet.src = idleGif;
+        });
+
+        gifyPet.addEventListener('mouseleave', function() {
+            isStopped = false;
+            gifyPet.classList.remove('stopped');
+            gifyPet.src = activeGif;
+        });
+
+        gifyPet.addEventListener('click', function() {
+            const randomPhrase = getRandomPhrase();
+            chatBubble.textContent = randomPhrase;
+            
+            chatBubble.style.display = 'block';
+            chatBubble.style.left = posX + 'px';
+            chatBubble.style.top = (posY - gifyPet.clientHeight / 2) + 'px';
+
+            clearTimeout(bubbleTimeout);
+            bubbleTimeout = setTimeout(() => {
+                chatBubble.style.display = 'none';
+            }, 4000);
+        });
+    </script>
+
+
+</style></html>
