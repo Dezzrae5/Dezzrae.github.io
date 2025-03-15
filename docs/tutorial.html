@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Download Aseprite from GitHub</title>
+  <style>
+    
+    @font-face {
+font-family:'OwlsNInk';
+src: url(https://cdn.jsdelivr.net/gh/Dezzrae5/my-font-repo@main/OwlsNInk.ttf
+);
+}
+     @font-face {
+    font-family: 'NintendoDSBIOS';
+    src: url('https://cdn.jsdelivr.net/gh/Dezzrae5/my-font-repo@main/Nintendo-DS-BIOS.ttf') format('truetype');}
+    body {
+      font-family: NintendoDSBIOS, sans-serif;
+      line-height: 1.1;
+ 
+      background: rgb(2,0,36);
+background: -moz-linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(120,0,51,1) 35%, rgba(0,255,226,1) 100%);
+background: -webkit-linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(120,0,51,1) 35%, rgba(0,255,226,1) 100%);
+background: linear-gradient(45deg, rgba(2,0,36,1) 0%, rgba(120,0,51,1) 35%, rgba(0,255,226,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00ffe2",GradientType=1);
+      color: #51d7ca;
+    }
+    .container {
+      
+      max-width: 800px;
+      margin: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #ff0670;
+       font-family: "OwlsNInk", Courier;
+    }
+    ul {
+      padding-left: 20px; ;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+    code {
+      background: #000;
+      padding: 2px 4px;
+      border-radius: 4px;
+      color: #ff0670;
+      font-family: "Courier New", Courier, monospace;
+    }
+    a{color: #ff0670;
+      display: inline-block;
+    transition: .2s ease;}
+    a:hover {
+    transform: translateY(-20%);
+      cursor: help;}
+    .tut{
+     
+      border-radius:5px;
+      border: solid 1px #ff0670;
+      padding:5px;
+    }
+    .fake-cursor {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-image: ;
+    background-size: cover;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    z-index: 0;
+}
+
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  
+}
+    #trailCanvas {
+    pointer-events: none;
+}
+
+  </style>
+</head>
+<body>
+    <div id="cursor" class="fake-cursor"></div>
+      <canvas id="trailCanvas"></canvas>
+  <div class="container">
+    <h1>How to Download Aseprite from GitHub</h1>
+    <p>
+      This tutorial is in response to a Pinterest comment I saw from someone who wanted to download Asperite but was too young to be able to afford it. You can compile the programs' code yourself for free on Github. Here's how:
+    <p> Disclaimer: I assume three things when writing this; One, you have a basic knowledge of computers, ie how to install programs, how to open programs, and what a program even is. Two, you are running Windows 10/11 <s>how do you expect me to write a tutorial about an OS that I  don't use?</s>. Three, you are cloning the repository on your internal drive (your own computer, not an external drive or a flash/thumb drive).    <p>
+    </p>
+    <div class="tut">
+    
+   <ol>
+  <li>
+    <strong>Install Git:</strong>
+    <ul>
+      <li>Go to <a href="https://git-scm.com/" target="_blank">Git's website</a> and download the installer for your operating system.</li>
+      <li>Run the installer and follow the instructions to install Git.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Install CMake:</strong>
+    <ul>
+      <li>Visit <a href="https://cmake.org/download/" target="_blank">CMake's website</a> and download the installer for your operating system.</li>
+      <li>Install CMake by following the on-screen instructions.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Install Visual Studio:</strong>
+    <ul>
+      <li>Download Visual Studio Community Edition from <a href="https://visualstudio.microsoft.com/" target="_blank">here</a>.</li>
+      <li>During installation, select the "Desktop development with C++" workload.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Download Aseprite Source Code:</strong>
+    <ul>
+      <li>Decide where you'd like to download the Aseprite source code on your computer (e.g., your <code>Documents</code> folder or a custom projects folder).</li>
+      <li>Open Git Bash as an administrator. Search for it in the taskbar and click 'run as administrator'.</li>
+      <li>
+        Use the <code>cd</code> (change directory) command to navigate to that folder. For example, if you're downloading to your "Documents" folder:
+        <pre><code>cd ~/Documents</code></pre>
+        Replace <code>Documents</code> with the folder path of your choice.
+      </li>
+      <li>Type the following command and press Enter:</li>
+      <pre><code>git clone --recursive https://github.com/aseprite/aseprite.git</code></pre>
+      <li>This will download the Aseprite source code into a new folder named <code>aseprite</code> within the directory you selected.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Build Aseprite:</strong>
+    <ul>
+      <li>Navigate to the Aseprite folder:</li>
+      <pre><code>cd aseprite</code></pre>
+      <li>Create a new folder for the build files:</li>
+      <pre><code>mkdir build</code></pre>
+      <pre><code>cd build</code></pre>
+      <li>Run the following command to configure the build:</li>
+      <pre><code>cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -G Ninja ..</code></pre>
+      <li>Build Aseprite by running:</li>
+      <pre><code>ninja aseprite</code></pre>
+    </ul>
+  </li>
+  <li>
+    <strong>Run Aseprite:</strong>
+    <ul>
+      <li>
+        After the build is complete, you'll find the Aseprite executable in the <code>build/bin</code> folder of the directory where you downloaded and built Aseprite.
+        If you're not sure where that is, check the folder you used when you cloned Aseprite from GitHub or extracted its source files. Inside that folder, look for a subfolder called <code>build</code>, and then open the <code>bin</code> folder. The file you're looking for is named something like <code>aseprite.exe</code>.
+      </li>
+      <li>Double-click it to run Aseprite!</li>
+    </ul>
+  </li>
+</ol>
+    Troubleshooting:
+    
+      <ul>
+      <li>
+         If the git command isn’t recognized: Make sure Git is properly installed by running <code>git --version
+</code> in Git Bash  and try restarting your computer. If it lists the version of Git that's currently installed, you're good to go. </li>
+     
+          <li>
+    If you're using an external drive to download Git, keep in mind that your computer might not immediately recognize where Git is installed. You may need to manually specify the path to the Git executable when running commands. 
+  </li>
+        
+        <li> If CMake fails: Double-check that you've selected the 'Desktop development with C++' workload during Visual Studio installation.</li>
+        <li>If Git fails to clone the repository (copy the files to your computer), check your internet connection and make sure you have access to GitHub (some networks or firewalls might block it).</li>
+         <li>If none of that works,  you can download <a href="https://libresprite.github.io/#!/downloads" target="_blank">LibreSprite </a> instead, which is a free fork (version) of Asperite that comes with a windows installer. (and other OS installers, too!)
+</li>
+    </ul>
+    
+   
+    
+    
+  
+    </div><p>  Even if you end up skipping through all of that and downloading LibreSprite, thank you for taking the time to read this far. This information applies to not only cloning the Asperite repository (copying its files to your computer) but also cloning any other repository. If anything, I hope you learned something new in case you didn't know before.</div>
+  
+  <div style="font-size:40px;"><a href="https://dezzrae5.github.io/Dezzrae.github.io/" target="_blank">Go back? </a></div>
+  
+   <script >window.onload = function() {
+    ghostCursor();
+
+    function ghostCursor() {
+        let canvas = document.getElementById('trailCanvas');
+        let context = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let cursor = { x: width / 2, y: width / 2 };
+        let particles = [];
+        const fakeCursor = document.getElementById('cursor');
+        const offset = { x: 0, y: 0 }; // Adjusted the offset to match the new cursor size
+
+        function onWindowResize(e) {
+            width = Math.max(document.documentElement.scrollWidth, window.innerWidth); // Full width of the page
+            height = Math.max(document.documentElement.scrollHeight, window.innerHeight); // Full height of the page
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        // Make sure the canvas dimensions are correct on load
+        canvas.width = width;
+        canvas.height = height;
+        onWindowResize();
+
+        let baseImage = new Image();
+        baseImage.src = "https://github.com/Dezzrae5/Dezzrae.github.io/blob/main/image/Mouse.png?raw=true";
+
+        function init() {
+            bindEvents();
+            loop();
+        }
+
+
+        function bindEvents() {
+            document.addEventListener("mousemove", onMouseMove);
+            document.addEventListener("touchmove", onTouchMove, { passive: true });
+            document.addEventListener("touchstart", onTouchMove, { passive: true });
+            window.addEventListener("resize", onWindowResize);
+
+            // Event delegation to handle button clicks
+            document.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    e.target.click();
+                }
+            });
+        }
+
+     function onWindowResize(e) {
+    width = Math.max(document.documentElement.scrollWidth, window.innerWidth); // Full width of the page
+    height = Math.max(document.documentElement.scrollHeight, window.innerHeight); // Full height of the page
+    canvas.width = width;
+    canvas.height = height;
+       
+}
+
+
+
+
+        function onTouchMove(e) {
+            if (e.touches.length > 0) {
+                for (let i = 0; i < e.touches.length; i++) {
+                    updateFakeCursor(e.touches[i].clientX, e.touches[i].clientY);
+                }
+            }
+        }
+
+        function onMouseMove(e) {
+    cursor.x = e.clientX + window.scrollX; // Include horizontal scroll offset
+    cursor.y = e.clientY + window.scrollY; // Include vertical scroll offset
+    updateFakeCursor(cursor.x, cursor.y);
+}
+
+
+     function updateFakeCursor(x, y) {
+    fakeCursor.style.left = `${x + offset.x - window.scrollX}px`; // Account for horizontal scroll
+    fakeCursor.style.top = `${y + offset.y - window.scrollY}px`; // Account for vertical scroll
+
+    // Retain your existing logic for buttons
+    const elementUnderCursor = document.elementFromPoint(x, y);
+    if (elementUnderCursor && elementUnderCursor.tagName === 'BUTTON') {
+        fakeCursor.style.pointerEvents = 'none'; 
+    } else {
+        fakeCursor.style.pointerEvents = 'auto';
+    }
+
+    addParticle(x + offset.x, y + offset.y, baseImage);
+}
+
+
+        function addParticle(x, y, image) {
+            particles.push(new Particle(x, y, image));
+        }
+
+        function updateParticles() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(context);
+            }
+            for (let i = particles.length - 1; i >= 0; i--) {
+                if (particles[i].lifeSpan < 0) {
+                    particles.splice(i, 1);
+                }
+            }
+        }
+
+        function loop() {
+            updateParticles();
+            requestAnimationFrame(loop);
+        }
+
+        function Particle(x, y, image) {
+            this.initialLifeSpan = 40;
+            this.lifeSpan = this.initialLifeSpan;
+            this.position = { x: x, y: y };
+            this.image = image;
+
+            this.update = function (context) {
+                this.lifeSpan--;
+                const opacity = Math.max(this.lifeSpan / this.initialLifeSpan, 0);
+                context.globalAlpha = opacity;
+                context.drawImage(this.image, this.position.x, this.position.y);
+            };
+        }
+
+        init();
+    }
+}
+</script> 
+</body>
+  
+</html>
