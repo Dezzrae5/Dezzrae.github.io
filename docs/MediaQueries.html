@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Media Queries</title>
+    <style>
+        @font-face {
+            font-family: 'OwlsNInk';
+            src: url(https://cdn.jsdelivr.net/gh/Dezzrae5/my-font-repo@main/OwlsNInk.ttf);
+        }
+        @font-face {
+            font-family: 'NintendoDSBIOS';
+            src: url('https://cdn.jsdelivr.net/gh/Dezzrae5/my-font-repo@main/Nintendo-DS-BIOS.ttf') format('truetype');
+        }
+        body {
+            font-family: NintendoDSBIOS, sans-serif;
+            line-height: 1.1;
+            background: rgb(2, 0, 36);
+            background: -moz-linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(120, 0, 51, 1) 35%, rgba(0, 255, 226, 1) 100%);
+            background: -webkit-linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(120, 0, 51, 1) 35%, rgba(0, 255, 226, 1) 100%);
+            background: linear-gradient(45deg, rgba(2, 0, 36, 1) 0%, rgba(120, 0, 51, 1) 35%, rgba(0, 255, 226, 1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024", endColorstr="#00ffe2", GradientType=1);
+            color: #51d7ca;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #ff0670;
+            font-family: 'OwlsNInk', Courier, monospace;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background: #000;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #ff0670;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        a {
+            color: #ff0670;
+            display: inline-block;
+            transition: .2s ease;
+        }
+        a:hover {
+            transform: translateY(-20%);
+            cursor: help;
+        }
+        .tut {
+            border-radius: 5px;
+            border: solid 1px #ff0670;
+            padding: 5px;
+        }
+        .fake-cursor {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-image: url('');
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            z-index: 0;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #trailCanvas {
+            pointer-events: none;
+        }
+       .example-box {
+            background-color: #51d7ca;
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+      
+           /* Media Query Example */
+        @media (max-width: 600px) {
+            .example-box {
+                background-color: #ff0670;
+                color: #fff;
+                font-size: 14px;
+            }
+        }
+        
+      
+    </style>
+</head>
+<body>
+    <div class="container">
+ (Quick disclaimer: This tutorial assumes you have a bit of understanding  of css and html but I tried my best to dumb things down as much as possible.)
+        <h1>What is a media query?</h1>
+      
+        <p>Media queries let you change the way your website looks depending on the size or shape of the screen someone is using. This helps your website look good on anything from a phone to a computer monitor.</p>
+
+        <h2>How Do Media Queries Work?</h2>
+      
+        <p>Media queries are written as part of your CSS and use the <code>@media</code> rule. For example:</p>
+        <div class="tut">
+            <code>
+                @media (max-width: 600px) {<br>
+                body {<br>
+                background-color: #51d7ca;<br>
+              &nbsp;  }<br>
+                }
+            </code>
+        </div>
+      note: #51d7ca is the hex code for the color teal. you can find different colors' hex codes by using websites like  <a href="https://htmlcolorcodes.com/color-picker/" target="_blank">HTML Color Codes</a>,
+     <a href="https://redketchup.io/color-picker" target="_blank">RedKetchup color picker</a>, and
+    <a href="https://www.colorcodehex.com/html-color-picker.html" target="_blank">Color Code Hex</a>.
+
+        <h2>Live Example</h2>
+        <p>Resize your browser window to see how the styles change based on the screen width:</p>
+        <div class="example-box">
+            This box changes style when the screen width is 600px or less!
+        </div>
+
+        <h2>Common Use Cases for Media Queries</h2>
+        <ul>
+            <li>Adjusting font sizes for smaller screens.</li>
+            <li>Hiding or showing elements depending on device size.</li>
+            <li>Changing layouts (e.g., from a grid to a single column).</li>
+        </ul>
+
+        <h2>Tips for Using Media Queries</h2>
+        <ol>
+            <li>Start with a "mobile-first" approach: design for small screens first, then add styles for larger screens.</li>
+            <li>Use <code>em</code> or <code>rem</code> units instead of <code>px</code> to make your designs more flexible.</li>
+           <li>
+    Test on multiple devices to ensure your media queries work properly. Here are some free tools to help:
+    <ul>
+        <li><a href="https://tools.hugecount.com/screen-resolution-simulator" target="_blank">Screen Resolution Simulator</a></li>
+        <li><a href="https://www.infyways.com/tools/website-responsive-checker/" target="_blank">Website Responsive Checker</a></li>
+        <li><a href="https://responsiveviewerr.netlify.app/" target="_blank">Responsive Viewer</a></li>
+
+    </ul>
+                   <li>Most modern browsers, like Chrome, have built-in developer tools with device emulators. These allow you to test your media queries on various devices without needing the devices themselves.</li>
+  </ol>
+          It's a good practice to place media queries at the bottom of your CSS file or below your regular CSS if you're using one HTML document. This ensures they override earlier styles when necessary, since CSS applies rules in order. This is called 'cascading,' which means CSS reads the rules from top to bottom. If two rules try to style the same thing, the rule written first will be ignored. For example:  <p>
+      <div class="tut">
+      <p>
+    <code>
+/* Style1 */
+      <br>
+h1 {
+       <br>
+ 
+ 
+  color: green;   
+       <br>
+}
+       <br>
+
+/* Style2 */
+       <br>
+h1 {
+       <br>
+  color: orange;  
+       <br>
+      
+}
+</code>
+        
+
+      </div>
+      Style 2  always overrides Style 1 because it's the last in the list. So the color of the h1 headings would be orange, even though both rules are trying to change the h1 heading color. 
+      <p>
+        The same would apply if you added a Style 3 and set Style 3 to change the h1 header to pink. In that case, the h1 header would be pink.
+    
+      <h2>Breakpoints</h2>
+      Breakpoints are specific screen widths where your site layout should adapt to offer the best user experience. Common breakpoints include:
+      <ul>
+        
+          <li>
+            Small screens: Up to 600px (mobile devices)</li>
+<li>
+  Medium screens: Between 601px and 1024px (tablets)</li>
+
+<li>Large screens: 1025px and above (desktops) 
+          </li>
+        You can adjust these based on your target audience or personal preference.
+      </ul>
+          
+          
+        
+
+     
+    
+        
+        
+    </div>
+</body>
+</html>
